@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --a11y-scale: 1;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  font-size: calc(16px * var(--a11y-scale));
+}
+
+body {
+  @apply bg-ink-50 text-ink-900 font-body antialiased;
+  font-feature-settings: "cv11", "ss01";
+}
+
+.dark body {
+  @apply bg-ink-950 text-ink-100;
+}
+
+* {
+  border-color: theme("colors.ink.200");
+}
+.dark * {
+  border-color: theme("colors.ink.700");
+}
+
+::selection {
+  background-color: theme("colors.vital.300");
+  color: theme("colors.ink.950");
+}
+
+/* Focus visibility — never sacrificed */
+:focus-visible {
+  outline: 2px solid theme("colors.vital.500");
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* High contrast mode */
+.a11y-high-contrast {
+  filter: contrast(1.18) saturate(1.05);
+}
+.a11y-high-contrast body {
+  --tw-text-opacity: 1;
+}
+.a11y-high-contrast.dark body {
+  background: #000;
+  color: #fff;
+}
+.a11y-high-contrast:not(.dark) body {
+  background: #fff;
+  color: #000;
+}
+
+/* Large controls */
+.a11y-large-controls button,
+.a11y-large-controls a[role="button"],
+.a11y-large-controls input,
+.a11y-large-controls select {
+  min-height: 48px;
+}
+
+/* Reduced motion (app-level toggle, in addition to prefers-reduced-motion) */
+.a11y-reduced-motion *,
+.a11y-reduced-motion *::before,
+.a11y-reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Colorblind simulation filters, applied to #root */
+.cb-protanopia {
+  filter: url(#cb-protanopia);
+}
+.cb-deuteranopia {
+  filter: url(#cb-deuteranopia);
+}
+.cb-tritanopia {
+  filter: url(#cb-tritanopia);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+.dark .glass {
+  background: rgba(20, 27, 38, 0.6);
+}
+
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: theme("colors.ink.300");
+  border-radius: 999px;
+}
+.dark .scrollbar-thin::-webkit-scrollbar-thumb {
+  background: theme("colors.ink.600");
+}
+
+.text-balance {
+  text-wrap: balance;
+}
